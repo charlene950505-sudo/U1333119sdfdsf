@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姚欣伶 ｜聯大資管期末專案</title>
+    
+    <link rel="icon" href="images/kitty.png" type="image/png">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            /* 少女系夢幻主題色：玫瑰金、蜜桃粉、薰衣草紫 */
+            --primary-girly: #e09298; 
+            --bg-pink: #fff5f6;      
+            --bg-lavender: #f3f0ff;  
+            --text-main: #4a5568;    
+        }
+
+        html { scroll-behavior: smooth; }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            color: var(--text-main); 
+            background-color: #ffffff;
+        }
+        
+        section { padding-top: 95px; padding-bottom: 70px; }
+
+        /* 1. 首頁區塊：【浪漫極光漸層】 */
+        #about {
+            background: linear-gradient(135deg, #fff5f6 0%, #fffbeb 40%, #f3f0ff 100%);
+        }
+
+        /* 2. 技能量表區塊：【櫻花波點網格】 */
+        #skills {
+            background-color: var(--bg-pink);
+            background-image: radial-gradient(rgba(224, 146, 152, 0.22) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        #projects, #articles { background-color: #ffffff; }
+
+        /* 團隊足跡區塊背景 */
+        #activities {
+            background: linear-gradient(180deg, #ffffff 0%, var(--bg-lavender) 100%);
+        }
+
+        /* 琉璃毛玻璃卡片 */
+        .card {
+            background: rgba(255, 255, 255, 0.75) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 1) !important;
+            border-radius: 22px !important; 
+            box-shadow: 0 10px 25px 0 rgba(224, 146, 152, 0.08) !important; 
+        }
+
+        .hover-lift { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .hover-lift:hover { 
+            transform: translateY(-9px); 
+            box-shadow: 0 25px 50px rgba(224, 146, 152, 0.15) !important; 
+            background: rgba(255, 255, 255, 0.95) !important;
+        }
+
+        /* 夢幻全彩光譜技能條 */
+        .progress { height: 18px; border-radius: 9px; background-color: #e2e8f0; overflow: hidden; }
+        .progress-bar {
+            background: linear-gradient(90deg, #e09298 0%, #b19bf3 100%) !important;
+            font-weight: bold;
+            font-size: 0.85rem;
+            line-height: 18px;
+        }
+        
+        .section-title::after {
+            content: ""; display: block; width: 50px; height: 5px; background: var(--primary-girly); margin-top: 10px; border-radius: 3px;
+        }
+
+        .navbar-custom { 
+            background-color: rgba(224, 146, 152, 0.92) !important; 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-outline-primary {
+            color: var(--primary-girly) !important;
+            border-color: var(--primary-girly) !important;
+        }
+        .btn-outline-primary:hover {
+            background-color: var(--primary-girly) !important;
+            color: white !important;
+        }
+        .bg-primary { background-color: var(--primary-girly) !important; }
+        .text-primary { color: var(--primary-girly) !important; }
+        .badge-girly { background-color: #b19bf3 !important; color: white; }
+
+        /* 右下角懸浮回到頂部按鈕 CSS */
+        .kitty-float-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 9999;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 6px 16px rgba(224, 146, 152, 0.45));
+        }
+        .kitty-float-btn:hover {
+            transform: scale(1.18) translateY(-6px);
+        }
+        .kitty-float-btn img {
+            width: 70px;
+            height: auto;
+        }
+        .kitty-bubble {
+            position: absolute;
+            top: -38px;
+            right: 5px;
+            background: #ffffff;
+            border: 2px solid var(--primary-girly);
+            padding: 3px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: var(--primary-girly);
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(5px);
+            pointer-events: none;
+            box-shadow: 0 4px 12px rgba(224, 146, 152, 0.15);
+            white-space: nowrap;
+        }
+        .kitty-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 25px;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid var(--primary-girly);
+        }
+        .kitty-float-btn:hover .kitty-bubble {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#navbar-example" tabindex="0">
+
+    <nav id="navbar-example" class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="bi bi-suit-heart-fill me-2 text-white"></i>Hsin-Ling Yao
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto fw-medium gap-1">
+                    <li class="nav-item"><a class="nav-link" href="#about">關於我</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#edu-exp">教育與實務</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#skills">專業技能</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#projects">專案櫥窗</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#articles">觀點專欄</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#activities">活動足跡</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section id="about" class="min-vh-100 d-flex align-items-center">
+        <div class="container">
+            <div class="row align-items-center justify-content-between g-5">
+                <div class="col-12 col-lg-5 text-center">
+                    <img src="images/me.jpg" alt="姚欣伶本人照片" class="img-fluid rounded-4 shadow-lg border border-white border-4" style="max-width: 280px; aspect-ratio: 3/4; object-fit: cover;">
+                </div>
+                <div class="col-12 col-lg-7">
+                    <span class="badge bg-primary px-3 py-2 fs-6 mb-3 shadow-sm">前端網頁設計期末專案  U1333119</span>
+                    <h1 class="display-4 fw-bold">妳好，我是 <span class="text-primary">姚欣伶</span></h1>
+                    <h3 class="fs-4 mb-4 text-secondary">國立聯合大學 資訊管理學系 二年級</h3>
+                    <p class="lead lh-base fw-medium text-dark">
+                        畢業於<strong class="text-primary">市立豐原高商商業經營科</strong>。
+                    </p>
+                    <p class="lh-base text-muted">
+                        國中時期就讀美術班的經驗，深化了我對美感和創意的理解，並在高中參與各類藝術競賽，培養了將創意與實際應用結合的能力。進入高中後，我選擇商業經營科作為專業方向，這讓我對市場分析和行銷策略制定產生濃厚興趣，同時也培養了我解決問題和有效管理資源的能力。這些學習背景共同激發了我對數位科技的熱情，尤其是資訊管理。希望能運用創造力和分析能力，結合現代科技，為未來職業生涯打下堅實基礎。
+                    </p>
+                    <div class="d-flex flex-wrap gap-2 mt-4 small">
+                        <div class="border rounded-pill px-3 py-2 bg-white shadow-sm"><i class="bi bi-palette-fill text-primary me-2"></i>**核心優勢**：創意美學視覺、市場行銷分析</div>
+                        <div class="border rounded-pill px-3 py-2 bg-white shadow-sm"><i class="bi bi-stars text-warning me-2"></i>**職涯目標**：成為黃金溝通橋樑的系統分析師與網頁設計師</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="edu-exp" class="container">
+        <div class="row g-5">
+            <div class="col-12 col-md-6">
+                <h2 class="fw-bold section-title mb-4">教育背景</h2>
+                <div class="card border-0 p-4 hover-lift mb-4 shadow-sm">
+                    <span class="badge bg-primary mb-2 align-self-start">大學學位｜就讀中</span>
+                    <h5 class="fw-bold mt-1 text-dark">國立聯合大學</h5>
+                    <h6 class="text-primary fw-bold">資訊管理學系（二年級）</h6>
+                    <p class="text-muted small mb-2">2024 - 2028 (預計畢業)</p>
+                    <p class="card-text small text-muted mb-0">
+                        **重點方向**：將商管策略導入資訊系統開發，修習資料庫管理、網頁設計與專案管理實務。
+                    </p>
+                </div>
+                <div class="card border-0 p-4 hover-lift shadow-sm">
+                    <span class="badge badge-girly mb-2 align-self-start">高中職專業</span>
+                    <h5 class="fw-bold mt-1 text-dark">台中市立豐原商業高級中等學校</h5>
+                    <h6 class="text-secondary fw-bold">商業經營科（畢業）</h6>
+                    <p class="card-text small text-muted mb-0">
+                        奠定市場分析、行銷策略與會計商流底蘊，在學期間積極參與各類藝術競賽，將美感融入實務。
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <h2 class="fw-bold section-title mb-4">實務與協作經驗</h2>
+                <div class="card border-0 p-4 hover-lift h-100 justify-content-between shadow-sm">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge bg-info text-dark">產學合作與創新開發專案</span>
+                            <span class="badge bg-success small">效率躍升 80%+</span>
+                        </div>
+                        <h4 class="fw-bold mt-2 text-dark">醫聲相伴：醫療資訊橋梁系統</h4>
+                        <h6 class="text-primary fw-bold small mt-1 lh-base">
+                            <i class="bi bi-people-fill me-1"></i>開發團隊：姚欣伶（U1333119）、余佾璇、王嘉緯、鄭理鴻、劉宏慶等五人協作
+                        </h6>
+                        <p class="card-text small text-muted mt-3 lh-base">
+                            **專案核心理念**：「聆聽每一刻，守護每一天」，致力於把病患容易遺失的醫療資訊重新連接起來，有效攔截並消弭臨床上常見佔比16%的診間診斷錯誤疏失。<br><br>
+                            **三大核心價值與貢獻**：<br>
+                            1. **醫療資訊不再遺漏**：打造適合獨居長者的語音助理介面；結合診間錄音與 AI 生成摘要，並經「醫師確認機制」把關，確保資訊正確後同步。<br>
+                            2. **家屬遠端參與照護**：為子女設計照護總覽與日誌趨勢圖表，提供用藥提醒；若長輩超過1.5小時未記錄吃藥，系統主動推播警示通知。<br>
+                            3. **連續病程與資安防護**：完整追蹤血壓、血糖、生活作息與心情狀態。底層整合語音轉文字（Speech to Text）與 AI 引擎，並導入 User DB 與 Audio Storage 安全加密與權限控管。<br><br>
+                            **實務成果與突破**：將傳統40-60分鐘的整理時間大幅縮短至5-8分鐘，成效提升80%以上，預期受益長者達上萬名；並納入「叫支援」求救功能。
+                        </p>
+                    </div>
+                    <div class="pt-3 mt-3 border-top d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <span class="small fw-bold text-secondary">
+                            <i class="bi bi-shield-check me-1"></i>資料加密 x AI 校對
+                        </span>
+                        <a href="醫聲相伴(改).pdf" target="_blank" class="btn btn-sm btn-outline-primary fw-bold rounded-pill px-3 shadow-sm">
+                            <i class="bi bi-file-earmark-pdf-fill me-1"></i>查看完整專案 PDF
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <div class="container">
+            <h2 class="fw-bold section-title mb-5 text-center mx-auto">專業技能評級量表</h2>
+            <div class="row g-4 max-w-4xl mx-auto">
+                <div class="col-12 col-md-6">
+                    <div class="p-4 card border-0 hover-lift">
+                        <label class="d-flex justify-content-between small fw-bold mb-2 text-dark">
+                            <span>網頁前端視覺與開發 (HTML / CSS / Bootstrap)</span>
+                            <span class="text-primary">85% / 獨立全站切版</span>
+                        </label>
+                        <div class="progress"><div class="progress-bar" style="width: 85%;">85%</div></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="p-4 card border-0 hover-lift">
+                        <label class="d-flex justify-content-between small fw-bold mb-2 text-dark">
+                            <span>商業市場分析與行銷策略制定</span>
+                            <span class="text-primary">80% / 商科優異底蘊</span>
+                        </label>
+                        <div class="progress"><div class="progress-bar" style="width: 80%;">80%</div></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="p-4 card border-0 hover-lift">
+                        <label class="d-flex justify-content-between small fw-bold mb-2 text-dark">
+                            <span>創意與美感設計 (UI/UX 介面規劃)</span>
+                            <span class="text-primary">90% / 美術班優勢</span>
+                        </label>
+                        <div class="progress"><div class="progress-bar" style="width: 90%;">90%</div></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="p-4 card border-0 hover-lift">
+                        <label class="d-flex justify-content-between small fw-bold mb-2 text-dark">
+                            <span>資料庫管理與專案協作 (SQL / Trello / PM)</span>
+                            <span class="text-primary">75% / 熟練運用</span>
+                        </label>
+                        <div class="progress"><div class="progress-bar" style="width: 75%;">75%</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="container">
+        <h2 class="fw-bold section-title text-center mb-5 mx-auto">專案作品櫥窗展示</h2>
+        <div class="row justify-content-center g-4">
+            <div class="col-12 col-lg-9">
+                <div class="card border-0 hover-lift overflow-hidden shadow-sm p-4 p-md-5 bg-white">
+                    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                        <span class="badge bg-danger px-3 py-2 fs-6">企業顧問與策略分析專案</span>
+                        <span class="text-muted small"><i class="bi bi-calendar3 me-1"></i> 訪談日期：114.12.21</span>
+                    </div>
+                    <h3 class="card-title fw-bold text-dark mb-3">台積電 (TSMC) 經營與高管領導力報告</h3>
+                    <p class="card-text text-muted small lh-base mb-4">
+                        <strong>指導老師</strong>：張志信 老師<br>
+                        <strong>訪談團隊</strong>：國立聯合大學 資訊管理學系 資管二乙（江凱宸、何丞舜、姚欣伶、余佾璇）<br>
+                        <strong>受訪主管</strong>：台積電實驗室副理 余先生<br><br>
+                        <strong>核心分析成果</strong>：<br>
+                        1. <strong>實務對照</strong>：將管理學「規劃、組織、領導與控制」四大功能，深度驗證於半導體龍頭運作實務中。<br>
+                        2. <strong>優勢剖析</strong>：透過 SWOT 與 TOWS 矩陣剖析，探討先進製程（3nm /2nm）與 CoWoS 封裝如何穩抓 AI 浪潮商機。<br>
+                        3. <strong>領導實證</strong>：導入費德勒 LPC（最難共事同仁量表）測驗，以 41分低 LPC 結果實證解析主管「任務導向型 (Task-Oriented)」領導風格。<br><br>
+                        <strong>欣伶負責項目</strong>：前言與歷史沿革撰寫、企訪資料蒐集、管理量表設計與錄音紀錄。
+                    </p>
+                    <a href="管理學報告書.pdf" target="_blank" class="btn btn-outline-danger btn-sm py-2 px-4 fw-bold align-self-start">
+                        <i class="bi bi-file-earmark-pdf-fill me-1"></i> 查看完整管理學報告書 (PDF)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="articles" class="bg-light py-5">
+        <div class="container">
+            <h2 class="fw-bold section-title mb-5 text-center mx-auto">專業見解與觀點</h2>
+            <div class="card border-0 overflow-hidden hover-lift max-w-5xl mx-auto shadow-sm">
+                <div class="row g-0 align-items-center">
+                    <div class="col-12 col-md-5 bg-dark d-flex justify-content-center overflow-hidden">
+                        <img src="images/S__66355213.jpg" class="img-fluid w-100" alt="資管觀點文章配圖" style="object-fit: cover; max-height: 380px;">
+                    </div>
+                    <div class="col-md-7 p-4 p-md-5 d-flex flex-column justify-content-center bg-white">
+                        <span class="text-primary fw-bold small mb-2"><i class="bi bi-quote me-1"></i>數位品牌觀點專欄</span>
+                        <h3 class="fw-bold mb-3 text-dark">當美學遇上商管：資管人在數位浪潮中的獨特價值</h3>
+                        <p class="text-muted small mb-4 lh-base">
+                            一個成功的資訊系統，不僅底層代碼邏輯要嚴謹，更需要貼近市場端使用者的「行銷思維」以及引人入勝的「視覺美感」。從國中美術班的感性美學創意，到豐原高商商經科的理性數據分析，這份雙軌背景讓我懂得如何在開立系統規格時，站在使用者體驗（UI/UX）的角度梳理繁瑣流程，展現兼具數位科技素養與敏銳市場洞察力的資管火花。
+                        </p>
+                        <div class="text-end small text-primary fw-bold">撰文者：姚欣伶</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="activities" class="container">
+        <h2 class="fw-bold section-title text-center mb-5 mx-auto">參與活動與團隊合影</h2>
+        <div class="row justify-content-center g-4">
+            <div class="col-12 col-md-6 col-lg-5">
+                <div class="position-relative overflow-hidden rounded-4 shadow-sm hover-lift h-100" style="aspect-ratio: 4/3;">
+                    <img src="images/S__66265098_0.jpg" class="w-100 h-100" alt="團隊專案討論實況" style="object-fit: cover;">
+                    <div class="position-absolute bottom-0 w-100 bg-dark bg-opacity-75 text-white p-3 small text-center fw-bold">
+                        台積電專案訪談與產學討論實況
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-5">
+                <div class="position-relative overflow-hidden rounded-4 shadow-sm hover-lift h-100" style="aspect-ratio: 4/3;">
+                    <img src="images/S__66265099_0.jpg" class="w-100 h-100" alt="小組文獻探討合影" style="object-fit: cover;">
+                    <div class="position-absolute bottom-0 w-100 bg-dark bg-opacity-75 text-white p-3 small text-center fw-bold">
+                        小組成員線下深度文獻探討合影
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="kitty-float-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" title="回至頁首">
+        <div class="kitty-bubble">點我回頂部 🎀</div>
+        <img src="images/kitty.png" alt="回到頂部按鈕">
+    </div>
+
+    <footer class="navbar-custom text-white text-center py-4 mt-5">
+        <div class="container small">
+            <p class="mb-1 fw-bold text-white">國立聯合大學 • 資訊管理學系 期末專案</p>
+            <p class="mb-0 text-white-50">© 2026 Yao Hsin-Ling. All Rights Reserved. Designed for Prof. Shen.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
